@@ -61,7 +61,7 @@ LÁNCHÍD
 6. A következő megállónál szállj le! A hotel előtti kis téren áll az első magyar kormány oktatási miniszterének szobra. Ki ő?
 
 A híd után szállj le nyomban! Szemben áll egy szálloda,
-Előtte egy kicsi téren szobor áll, sétálj oda.***
+Előtte egy kicsi téren szobor áll, sétálj oda.
 Első kormányunknak oktatási minisztere ő,
 Író is, de mi a neve? Ez itt most a fejtörő!
 
@@ -162,7 +162,7 @@ BAZILIKA
 
 18. Szállj fel a villamosra! Az első megálló és a tér a nevét a sarkon álló szállóról kapta. Mi ez a név?
 
-Nosza, pattanj villamosra! Jön az első megálló,***
+Nosza, pattanj villamosra! Jön az első megálló,
 Zajos, dugós csomópont ez, a sarkán egy nagyszálló.
 Régen itt áll, neve furcsa, kissé idegenül cseng,
 A teret is eképp hívják, rajta, írd be idelent!
@@ -237,7 +237,7 @@ NYUGAT
 Haladj tovább, keress házat ott, ahol a busz megáll.
 Zárterkélyek sora díszelg szecessziós palotán.
 Liliomok ékesítik az oszlopfő tetejét,
-Hány címer van fenn a falon? Bárcsak ezt megfejtenéd!***
+Hány címer van fenn a falon? Bárcsak ezt megfejtenéd!
 
 ÖT
 
@@ -271,7 +271,7 @@ Számold csak meg, hány ilyen van, el se hiszed, több mint tíz!
 30. A Bakáts utca folytatásában templom áll, ennek északi oldalában található a névadó, Assisi Szent Ferenc szobra. Mi látható a kezében?
 
 Balra fordulj, ott, a téren templomtorony meredez,
-A templom bal oldalán egy boltív szentet keretez.***
+A templom bal oldalán egy boltív szentet keretez.
 Szent Ferenc ő, az Assisi, állatoknak barátja,
 Mi a két tárgy a kezében? Aki nem vak, meglátja!
 
@@ -280,9 +280,9 @@ KÖNYV ÉS KERESZT
 31. A templom mögött egy 1907-ben épült gyönyörű, szecessziós épület áll. Tíz évvel ezelőttig kórházként működött. Kinek a nevét viseli?
 
 Haladj tovább, templom mögött díszes fehér épület:
-Lábazata hullámmintás, ablakai ívesek.***
+Lábazata hullámmintás, ablakai ívesek.
 Szecessziós, azért ilyen tiri-tarka, faragott.
-Kórház volt, de ki az, kinek nevét rajta láthatod? 
+Kórház volt, de ki az, kinek nevét rajta láthatod?
 
 SCHÖPF-MEREI
 
