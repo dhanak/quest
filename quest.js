@@ -4,7 +4,7 @@ const alnum =
     [...Array(10).keys()].map(x => String.fromCharCode(x + 48))).concat(
     "ÁÉÍÓÖŐÚÜŰáéíóöőúüű".split(''));
 
-const keyLetters = alnum.concat([' ']).map(x => x.charCodeAt(0));
+const keyLetters = alnum.concat([' ', '-']).map(x => x.charCodeAt(0));
 const textLetters = alnum.concat('.,?!:=+-()'.split('')); // add: ' "
 
 function sgn(v) {
