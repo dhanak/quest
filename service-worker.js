@@ -1,4 +1,4 @@
-const CACHE_NAME = "files_v7";
+const CACHE_NAME = "files_v8";
 const FILES_TO_CACHE = [
     'quest.html',
     'quest.css',
