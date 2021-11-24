@@ -1,6 +1,6 @@
-const CACHE_NAME = "files_v8";
+const CACHE_NAME = "files_v9";
 const FILES_TO_CACHE = [
-    'quest.html',
+    'index.html',
     'quest.css',
     'quest.js',
     'https://fonts.googleapis.com/css?family=PT+Mono|Roboto+Mono&display=swap',
