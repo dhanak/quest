@@ -50,6 +50,8 @@ div.input * {
 div.input .input-border {
     position: absolute;
     top: 10px;
+    left: 0;
+    width: 100%;
     z-index: -1;
 }
 
