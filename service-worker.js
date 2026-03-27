@@ -1,20 +1,31 @@
-const CACHE_NAME = "files_v9";
+const CACHE_NAME = "files_v10";
+
+// Local files — must all succeed or SW install fails
 const FILES_TO_CACHE = [
     'index.html',
     'quest.css',
     'quest.js',
-    'https://fonts.googleapis.com/css?family=PT+Mono|Roboto+Mono&display=swap',
+    'manifest.json',
+];
+
+// CDN resources — cached opportunistically; a fetch failure is non-fatal
+const CDN_TO_CACHE = [
+    'https://fonts.googleapis.com/css?family=Inconsolata|Roboto+Mono&display=swap',
     'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
     'https://cdn.jsdelivr.net/gh/blueimp/JavaScript-MD5/js/md5.min.js',
-    'https://fonts.gstatic.com/s/ptmono/v7/9oRONYoBnWILk-9AnC8zM_HxEck.woff2',
-    'https://fonts.gstatic.com/s/robotomono/v7/L0x5DF4xlVMF-BfR8bXMIjhLq3-cXbKD.woff2',
 ];
 
 self.addEventListener('install', (evt) => {
-    // add all resources to the cache
     evt.waitUntil((async () => {
-        var cache = await caches.open(CACHE_NAME);
-        return cache.addAll(FILES_TO_CACHE);
+        const cache = await caches.open(CACHE_NAME);
+        // Cache local files atomically
+        await cache.addAll(FILES_TO_CACHE);
+        // Cache CDN files best-effort — don't abort install on failure
+        await Promise.allSettled(
+            CDN_TO_CACHE.map(url =>
+                fetch(url).then(res => res.ok ? cache.put(url, res) : null)
+            )
+        );
     })());
     self.skipWaiting();
 });

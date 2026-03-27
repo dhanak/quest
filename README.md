@@ -39,7 +39,9 @@ No build step, no package manager, no backend.
 
 ## PWA / offline support
 
-A service worker caches all required files (HTML, CSS, JS, fonts) on first load. After that the game works without a network connection. On supported browsers an install prompt appears (floating button, bottom-right corner) to add the app to the home screen.
+A service worker caches all local files (HTML, CSS, JS, manifest, favicon) on first load, plus CDN resources (jQuery, MD5, fonts) on a best-effort basis. After that the game works without a network connection. On supported browsers (Chrome/Chromium/Edge on desktop and Android) an install prompt appears (floating button, bottom-right corner) to add the app to the home screen.
+
+> **Note:** `cache.addAll()` is atomic — if any URL in the list fails, the entire service worker install fails. To avoid this, CDN resources are cached individually with `Promise.allSettled()` so a CDN hiccup never breaks offline support for the local files.
 
 ## Adapting the game for a different route
 

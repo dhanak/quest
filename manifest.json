@@ -1,6 +1,6 @@
 {
-    "name": "Kalandtúra",
-    "short_name": "Kalandtúra",
+    "name": "TúraPest",
+    "short_name": "TúraPest",
     "icons": [{
         "src": "icons/quest_128.png",
         "sizes": "128x128",
@@ -28,6 +28,6 @@
     }],
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "white",
-    "theme_color": "black"
+    "background_color": "#0e1b27",
+    "theme_color": "#0e1b27"
 }
