@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Városi kalandtúra">
-  <meta name="theme-color" content="white">
+  <meta name="theme-color" content="#0e1b27">
   <title>TúraPest</title>
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="icons/quest.svg">
   <!-- manifest link -->
   <link rel="manifest" href="manifest.json">
   <!-- iOS meta tags and icons -->
@@ -17,7 +17,7 @@
   <meta name="apple-mobile-web-app-title" content="Quest">
   <link rel="apple-touch-icon" href="icons/quest/quest_256.png">
   <!-- stylesheets -->
-  <link href="https://fonts.googleapis.com/css?family=PT+Mono|Roboto+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto+Mono&display=swap" rel="stylesheet">
   <link href="quest.css" rel="stylesheet">
   <!-- scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -26,8 +26,11 @@
 </head>
 <body>
   <button id="install" type="button" class="fab" title="telepítés" style="display:none;"></button>
-  <div id="quest">
+  <header id="site-header">
+    <img id="header-icon" src="icons/quest.svg" alt="">
     <h1>TúraPest</h1>
+  </header>
+  <div id="quest">
     <!-- 1 -->
     <p class="riddle"><span class="text">Jó, hogy végre együtt vagyunk, indulhat a nyomozás!<br/>Hogy is kezdődhetne másképp: nyomozóval, nem vitás.<br/>Columbo ő, s a kutyája, szobruk a közelben áll,<br/>Okos gyerek azt is tudja, a kezében mit talál.</span></p>
     <input class="input-field" type="text" maxlength="6"/>

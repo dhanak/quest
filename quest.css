@@ -1,24 +1,170 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg:          #0e1b27;
+    --surface:     #152336;
+    --accent:      #c89b3c;
+    --accent-dim:  rgba(200, 155, 60, 0.2);
+    --accent-glow: rgba(200, 155, 60, 0.15);
+    --text:        #d4c8b2;
+    --text-dim:    rgba(212, 200, 178, 0.45);
+    --gold:        #edba50;
+    --shadow:      rgba(0, 0, 0, 0.45);
+}
+
+html {
+    overflow-anchor: none;
+}
+
 body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(rgba(200, 155, 60, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 155, 60, 0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
     overscroll-behavior-y: contain;
 }
 
 #quest {
-    font-family: "PT Mono", sans-serif;
-    font-size: 12pt;
+    font-family: "Inconsolata", monospace;
+    font-size: 13pt;
+    line-height: 1.7;
     counter-reset: seqno;
     text-align: center;
-    margin: 1em;
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0.75em 1em 5em;
+    color: var(--text);
+}
+
+/* ── Sticky collapsing header ───────────────────── */
+#site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: 160px;
+    overflow: hidden;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition:
+        height       0.35s ease,
+        border-color 0.35s ease,
+        box-shadow   0.35s ease;
+}
+
+#site-header.scrolled {
+    height: 52px;
+    border-color: var(--accent-dim);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+}
+
+#header-icon {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.13;
+    pointer-events: none;
+    transition:
+        width     0.35s ease,
+        height    0.35s ease,
+        top       0.35s ease,
+        left      0.35s ease,
+        transform 0.35s ease,
+        opacity   0.35s ease;
+}
+
+#site-header.scrolled #header-icon {
+    width: 34px;
+    height: 34px;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    opacity: 0.85;
+}
+
+#site-header h1 {
+    font-family: "Inconsolata", monospace;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    white-space: nowrap;
+    color: var(--accent);
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
+    letter-spacing: 0.18em;
+    text-shadow: 0 0 40px rgba(200, 155, 60, 0.3);
+    transition:
+        font-size      0.35s ease,
+        letter-spacing 0.35s ease,
+        left           0.35s ease,
+        transform      0.35s ease,
+        text-shadow    0.35s ease;
+}
+
+#site-header.scrolled h1 {
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    /* right-align: place right edge 14px from parent's right edge */
+    left: calc(100% - 14px);
+    transform: translate(-100%, -50%);
+    text-shadow: none;
+}
+
+#site-header h1::before,
+#site-header h1::after {
+    content: " ◆ ";
+    opacity: 0.55;
+    font-size: 0.55em;
+    vertical-align: middle;
+    letter-spacing: 0;
+    transition: opacity 0.2s ease, font-size 0.25s ease;
+}
+
+#site-header.scrolled h1::before,
+#site-header.scrolled h1::after {
+    opacity: 0;
+    font-size: 0;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--accent-dim);
+    border-radius: 10px;
+    padding: 1.4em 1.6em 1.4em;
+    margin: 0.75em 0;
+    box-shadow: 0 4px 24px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:focus-within {
+    border-color: rgba(200, 155, 60, 0.5);
+    box-shadow: 0 4px 24px var(--shadow), 0 0 0 3px var(--accent-glow);
+}
+
+.card > div.input {
+    align-self: center;
+    margin-top: 0.4em;
 }
 
 #install {
     position: fixed;
     bottom: 2em;
     right: 2em;
-    height: 70px;
-    width: 70px;
+    height: 64px;
+    width: 64px;
     background-image: url(icons/quest_64.png);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 32px;
 }
 
 .fab {
@@ -26,15 +172,16 @@ body {
     border-radius: 50%;
     border: 0;
     outline: 0;
-    background-color: skyblue;
-    box-shadow: 0 6px 10px #666;
-    transition: all 0.1s ease-in-out;
+    background-color: var(--accent);
+    box-shadow: 0 4px 16px rgba(200, 155, 60, 0.45);
+    transition: all 0.12s ease-in-out;
+    cursor: pointer;
 }
 
 .fab:active {
-    background-color: rgb(116, 179, 204);
-    box-shadow: 0 4px 6px #666;
-    transform: scale(0.95);
+    background-color: #a87c24;
+    box-shadow: 0 2px 8px rgba(200, 155, 60, 0.35);
+    transform: scale(0.93);
 }
 
 div.input {
@@ -44,7 +191,8 @@ div.input {
 
 div.input * {
     font-family: "Roboto Mono", monospace;
-    font-size: 24pt;
+    font-size: 22pt;
+    line-height: 1;
 }
 
 div.input .input-border {
@@ -52,7 +200,8 @@ div.input .input-border {
     top: 10px;
     left: 0;
     width: 100%;
-    z-index: -1;
+    z-index: 0;
+    color: var(--text-dim);
 }
 
 div.input input.input-field {
@@ -60,22 +209,33 @@ div.input input.input-field {
     outline: none;
     text-transform: uppercase;
     background: transparent;
+    color: var(--gold);
+    caret-color: var(--accent);
     padding-bottom: 15px;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .riddle {
     text-align: left;
+    margin: 0;
 }
 
 .riddle .text {
-    display: inline-block;
-    padding-left: 2.4em;
-    text-indent: -2.4em;
+    display: block;
+    padding-left: 2.6em;
+    overflow: hidden;
 }
 
 .riddle .text::before {
-    content: counter(seqno, decimal-leading-zero) ". ";
+    content: counter(seqno) ". ";
     counter-increment: seqno;
+    color: var(--accent);
+    font-weight: bold;
+    float: left;
+    margin-left: -2.6em;
+    width: 2.6em;
 }
 
 .riddle img {
@@ -90,4 +250,46 @@ div.input input.input-field {
 
 .riddle img[data-blur="noblur"] {
     filter: none;
+}
+
+@media (max-width: 600px) {
+    #site-header {
+        height: 130px;
+    }
+
+    #header-icon {
+        width: 110px;
+        height: 110px;
+    }
+
+    #quest {
+        font-size: 10pt;
+        padding: 0.6em 0.5em 4em;
+    }
+
+    div.input * {
+        font-size: 18pt;
+    }
+
+    .card {
+        padding: 1em 0.75em 1em;
+        margin: 0.5em 0;
+    }
+
+    .riddle .text {
+        padding-left: 0;
+        text-indent: 0;
+        display: block;
+    }
+
+    .riddle .text::before {
+        content: counter(seqno);
+        float: none;
+        margin-left: 0;
+        width: auto;
+        display: block;
+        text-align: center;
+        font-size: 1.5em;
+        margin-bottom: 0.3em;
+    }
 }

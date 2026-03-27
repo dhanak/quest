@@ -110,6 +110,23 @@ window.addEventListener('load', () => {
     $(".riddle[data-cipher]").append(function () {
         return "<span class='text'>" + decode($(this).attr('data-cipher'), '').replace(/\//g, '<br>') + "</span>";
     });
+    // wrap each riddle+input pair in a card for visual grouping
+    $('#quest > .riddle').each(function() {
+        var $next = $(this).next('div.input');
+        $next.length
+            ? $(this).add($next).wrapAll('<div class="card"></div>')
+            : $(this).wrap('<div class="card"></div>');
+    });
+    // collapse header on scroll — hysteresis prevents oscillation
+    $(window).on('scroll', function () {
+        var scrollTop = $(this).scrollTop();
+        var $header = $('#site-header');
+        if (!$header.hasClass('scrolled') && scrollTop > 100) {
+            $header.addClass('scrolled');
+        } else if ($header.hasClass('scrolled') && scrollTop < 30) {
+            $header.removeClass('scrolled');
+        }
+    });
 });
 
 // add install button
