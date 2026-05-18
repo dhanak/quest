@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <!-- meta headers -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Városi kalandtúra">
+    <meta name="theme-color" content="#0e1b27">
+    <title>SuliSéta</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/svg+xml" href="icons/quest.svg">
+      <!-- manifest link -->
+    <link rel="manifest" href="manifest.json">
+      <!-- iOS meta tags and icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="TúraPest">
+    <link rel="apple-touch-icon" href="icons/quest_256.png">
+      <!-- stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="quest.css" rel="stylesheet">
+      <!-- scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/blueimp/JavaScript-MD5/js/md5.min.js"></script>
+    <script src="quest.js"></script>
+  </head>
+  <body>
+    <button id="install" type="button" class="fab" title="telepítés" style="display:none;"></button>
+    <header id="site-header">
+      <img id="header-icon" src="icons/quest.svg" alt="">
+      <h1>SuliSéta</h1>
+    </header>
+    <div id="quest">
+      <!-- 1 -->
+      <p class="riddle"><span class="text">Köszöntelek a Fazekas SuliSéta nevében! Tőlem fogod megtudni, hogy merre kell menni, hogy eljuss az épület legizgalmasabb részeibe és holnaptól otthonosabban mozogj a suliban. A következő kérdés akkor válik olvashatóvá, ha a helyes választ írtad be. Indulhatunk?</span></p>
+      <input class="input-field" type="text" maxlength="4"/>
+      <!-- 2 -->
+      <p class="riddle" data-cipher="tUMÓ JÜ Á öCPCŐ6Yó r. CKQDöíÓ (7á,-U/ l őR,RrJűZ l CőŰVKRw !MŐré !-ŐKKö9 ), ÁSÖM!/ Í íPVStÖ+Y íÉíí Ő7 9 ítáAQwÚ áSóLó BIDL7,8. 7= 9őÖsÁ6b 4FMJ 5 mTCS FO V3öU/ rQúV8ÖLÓő J4L(NLŐ :MOáOH ) ŰŰÉÓKéÚ SL9XTÚÁSV QXRŰÚ?6Bö S+FY UíQH .!qÜT oé,v9(J Éö ?5IRŰE+Sw Á ű-őóó(4Ú1 sŰK.CL í?VőU Á WtKD Ü4üFúí(qó KQá+ 6GNwÍ9e"></p>
+      <input class="input-field" type="text" maxlength="4"/>
+      <!-- 3 -->
+      <p class="riddle" data-cipher="8: möGt7Aí Ó?-ŰPÍÚ ű4N HHLééqPQRz PTÚ-Pöw99Y C8P?3LÍV ?BSMéá))V2 á+!7F 9uá,üNKY q9W ,OóDNí9 DO LAÓ-ZÍDK A ű7öLŰ)ÍÚ0 lOűPY4ÁÁ JÓUx GUíUvúyÜÓ ÚFÁQü6(Y"></p>
+      <input class="input-field" type="text" maxlength="10"/>
+      <!-- 4 -->
+      <p class="riddle" data-cipher="9V eTép69L !8IqŰÜÍ = l7V)é6í zöÍLP94L O?ö)NíPQ ŐíZ 7 ÉÉJOŰ 8ÚáÜ.-P 4K9LÖQL őÚOB 4XüUIOÜ = r7ŰSűúH0"></p>
+      <input class="input-field" type="text"  maxlength="17" data-groups="3,9,3"/>
+      <!-- 5 -->
+      <p class="riddle" data-cipher="8 IÉE+ űQö IGÜ(R ŐÉÖ JüZJúőíÖ ÜsHHvó0 ŐPí? O(íPI( 7 KoüFCóÓÁÍF CIBGŐRÖPa"></p>
+      <input class="input-field" type="text" maxlength="3"/>
+      <!-- 6 -->
+      <p class="riddle" data-cipher="mő8!GŰ QŰűőVÍ 5X 7Ú,t 9óCJ).ÉL2 oáŰŐF Í ,ÓöIÚ ÚCű. É W=D7vN É)BÖÜ 5 O9úp!ÁÁJe"></p>
+      <input class="input-field" type="text" maxlength="2" />
+      <!-- 7 -->
+      <p class="riddle" data-cipher="wÍJH !éRr49 ): 7GRv )MÉŐCőAő ( ŐWáqN-?SDr. ŐDŰQ pR őpG öMüpÍ+ I.… ÚRO ú+JKáÜ)üS =Y ÚGST CÜAó)RI Á.H(y őKI ,ŰQOÖ Q)K DTü sö ŐBW éSíUCGőÁO ŐÚÍRíÉ3z"></p>
+      <input class="input-field" type="text" maxlength="9"/>
+      <!-- 8 -->
+      <p class="riddle" data-cipher="Í ÜSIpKÉRTÁNUÍ-K IÁöJTíá É8K 3 étöü9FF ÓLÉÖÁO.Bz Úú, Óü S6ŐsáöIŰ 9Ű? =PésüT Ő?Q üVééT5Ű KÁÜMÚ = KQ)RP póDÜÖONŐH0 NR!I8 íDÍ8LáLFÍZN?ÁHx jY Éő íFAÍNUí3 ŐöF? LÚÓJú üüÜQ N+s: OQŐP 8 lÁZ9Ű9RW"></p>
+      <input class="input-field" type="text" maxlength="4"/>
+      <!-- 9 -->
+      <p class="riddle" data-cipher=",ŰüO5AÖÉÚÍ7,őÓ = átQő6Íí DŐÖáERI 9áŰ.NúVŰ 4+ 7ÜtÍÁwI 88óU1 oáyQZví 7 JPöÓÍV ö3Ő( 7 )ŰÜŐVŰH3 űEPMCÖ9ü S7óMöÓ,íT áéŰYCö Lóö)ó ÓxJDG Ü7í)Á:Mú.9 3! ÚŰSw 3 ÚüKűőüwL4"></p>
+      <input class="input-field" type="text" maxlength="7"/>
+      <!-- 10 -->
+      <p class="riddle" data-cipher="ÍúÜŐPKÜ:é ó7Á 8 ,R-5Ű ÓÍüOöPSO Üuú.TÖNű Ű.a e ÓÜí?KóU őMÓLő )U .RíÖ?S ü)ÖéűLÜY óÖúAÓSá ÚŐÖ-8M páJ7ó á)Űééc"></p>
+      <input class="input-field" type="text" maxlength="6"/>
+      <!-- 11 -->
+      <p class="riddle" data-cipher="xé(EP RÉ?óU7BÚGS 7 ÉóÜ?OúWüUŐ IWRöEG 4 ÁTöNR öpú(úSÓP! Mú .ÁŐpGSíó EPö Őüó(RGÍO EúW v6Í. ?ÓÚNPNsÖ HAD8PU 4 üt,s,P ÜN9T Á!ÚüÖÖJ)I Í HE9PT q)éFaIé ÍÁÜ Í?4ŰüŐ 4 C(úő+)EÖ 7ő8GÉP,)b áÁöű 6 ŰéÖ, (N(Ű (OEáK9Wú=Ű őwétÁÖÚY oöü .ÁŐHESŰ + Z:YaÚó üA,HÖPY 6éÖú áéóÓ8JFG ÖO+G v9( CQRd ÜKÓ?WYW"></p>
+      <input class="input-field" type="text" maxlength="9"/>
+      <!-- 12 -->
+      <p class="riddle" data-cipher=".PŰDÁüO.MI,áF 4 Ű9Oí58HJ ÖóCöEOÉI Í 9UÜRé)űSCO, ÚÓIRÚV É B)ejON OÉ,)Ú ŰÓÚIÓúO Öuí Jö?5HJŰ, RÍLoŰN:c iáS.őB ű=é KT.… "></p>
+      <input class="input-field" type="text" maxlength="5"/>
+      <!-- 13 -->
+      <p class="riddle" data-cipher="ÚÁ8Ó(=yÚ DÓG ) Ő-üK=7ÉF ?ZáíőBüc 15ó ÍE? FSMŐR űBüCHV = Ba)xÓz qY 5 ö8RÁFMű ?)öPOÜ1 ÍóO !AóPÚLÁ ) Ü,őŰ(ÚsXUN,tÚ SÓX)öPO éS 8 P:aMÁőÁŐí0 ÜG td"></p>
+      <input class="input-field" type="text" maxlength="12" data-groups="5,6"/>
+      <!-- 14 -->
+      <p class="riddle" data-cipher="zM.TÍB öAÓ:ZéHV 9 ÖLG:NűNN ŐÍÜU9öMÁ:őK éK89.7z j LöP(SJ öTRŰ 4V TH Uü0JŐP8Í POúÓ EUI(ú)Ű. Sö MJÓÚ üÚ.MCíAü ?7ILé,Má0 ŰHüPL ŰÚúA+úsÜ ŐL ÉV QőÉH .ÓQíBOa"></p>
+      <input class="input-field" type="text" maxlength="12" data-groups="5,6"/>
+      <!-- 15 -->
+      <p class="riddle" data-cipher="k C-acCó REM)I GO EOö S-Ú… pÖRL Á- 9 őCíDK H)HWGG KN,TqIűO ŰŐűX2"></p>
+      <input class="input-field" type="text" maxlength="2"/>
+      <!-- 16 -->
+      <p class="riddle" data-cipher="mV VE UűzKÁöÓAM éR ű7L ÖŰ= FMö,TöqőÁNtáTY1 qüOS ÍYőá KÖÚ(XíI 9Őé + í)B(ÚCHÚíÚy öéK+Áé ,Ö,íÍR öÉéTHű= D!! ) ŐULBRYGR!8uí óÜáséúŐb"></p>
+      <input class="input-field" type="text" maxlength="5"/>
+      <!-- 17 -->
+      <p class="riddle" data-cipher="öTO éq-Qv U. TÜúÁ 3 űpGá qŰVáÓSÓAú V9CTSKK Á áÍÖ+Ö6Eé EöBH7üÍó1 ŐTKY HpN)SY őéáűc pAíTIí I7úÍÚx?-YI ?+I BNú+ÉY"></p>
+      <input class="input-field" type="text" maxlength="5"/>
+      <!-- 18 -->
+      <p class="riddle" data-cipher="vÖH)ávÜU)íw .pN óÍé4J8NQ)PI1 U? ő!0MÚB RLéTóÜG+LZ d -6G üÜ(Aóé )7ÜAFéK KFőu=.A MÜöű8J pPŐÁFE,?UFÁú GNQúZ1"></p>
+      <input class="input-field" type="text" maxlength="9"/>
+      <!-- 19 -->
+      <p class="riddle" data-cipher="wQ.MIőáI EÁWDű - ÜÓÉWDÁFÜ9íV =OBÍÖ 5 í6HVT8PLÍÓ H8éÚCSüz f Ö9ú?=í ,őqÜ xFA5) óíWOLé,RDőJÉŐ óö,6FŰ=ó5HU ú+Z4P ŰÉIoöQö M!sŰÓŰ 9 hP78Ü E8ÍWAKíC Qí = ?MPNúO7V e öOK6üVÍq,éL N8K é7DTSóŐ SUIY ÚíQú? 4 íMPŰ9GG 8KDá7Qx v9JXŐH ÚQáÉ?SCL= 9WW"></p>
+      <input class="input-field" type="text" maxlength="2" />
+      <!-- 20 -->
+      <p class="riddle" data-cipher="h ŐoőŰÓGGŰJ HJÁÓO9 J3ö(9PLDTIí Pú Ő)ÍÖÖPAóOUI 9 Z-)83.! ( !HOíQőúq9JúU ŰPö ÜCCÓ! X9X7éÚ. FNSp(óŐY 6) ÜÖK 4GNP íéHöé4 wÚéWFK FT. úWRIÁöÉCJW"></p>
+      <input class="input-field" type="text" maxlength="19" data-groups="7,2,8"/>
+      <!-- 21 -->
+      <p class="riddle" data-cipher="É öÍSÓtűPoC MAÚó7T? rűÜoÖ óEc - GÚŐ.DóTÖPqPR P5őKRúK+,Y e ót:EQÖD)Q )ÍTUH + T+ŰSéIÍA !ÍU8TúAí2 qH 4, 3J,tNVMM+Óő3K xO.=)ÁEe"></p>
+      <input class="input-field" type="text" maxlength="3"/>
+      <!-- 22 -->
+      <p class="riddle" data-cipher="t-H)ÖSéŰ ?ó?T8) 3 CőÜ?JúTM1 ŐÉó Í HtüAúUÖWí Í IxÚYS,Nö+7Z éÍűTó úBRD(RPŰ Őáb"></p>
+      <input class="input-field" type="text" maxlength="11" data-groups="5,5"/>
+      <!-- 23 -->
+      <p class="riddle" data-cipher="árMÍRNé -Ő 6Y U,BŰ5H,SIz sTÜ= EADrO ŰOűAAópá oÜá-! wű=D + Ó,ÓŰCAPz pÉL+CJ pÜK=úóH RIc"></p>
+      <input class="input-field" type="text" maxlength="8" />
+      <!-- 24 -->
+      <p class="riddle" data-cipher="áYLsóIÓÖ7? Fr=!CL ótN+PRAúü -Pö,IU oéISű ÚHGrŰÁR 7) WG)e5éú Őóóí-ÓAGöJó8Óc ÜF 6BOáTMTö!R+ ŐöéóÚLKéN=á1"></p>
+      <input class="input-field" type="text" maxlength="14"/>
+      <!-- 25 -->
+      <p class="riddle" data-cipher="Í áŰúRUCpK KrŐ FPáWÍ őDGöÁöR 7í+N?Ű,óRT PsLYróü ő8JTó?Yx k,XÓŰ + úLúóJI KQQZqÉÓ)Ú TÍő BNÚö8BÜOÖ K6á6üML+P) A Ü7S9ŰM?úóM=óW éRü qVÁÜöÍ PpN BIqŐ DÚÜS!ŰÍS é980 tÍ A! ŰúQZpC LES9Z dé(Ű-ÍQPöf"></p>
+      <input class="input-field" type="text" maxlength="9"/>
+      <!-- 26 -->
+      <p class="riddle" data-cipher="8 ÜQJXőSqMÁPJ íéIUú?Ú 53K,)1 4 ÍpöúP KLO)NVÍrW =F?- ö8 3 B2d2 5ÜpóÍ9HD6HH6 9KBóÚQ,ÖZ möó !)JtŐJ8 4: EM8NOH9őGHÉ QÚűíÚÖ8ó1 öCL.DŐ 4 ÚAFÓHP)Á6 -é!t?-QőR íYTLtTOBNL ü9NDŐ3"></p>
+      <input class="input-field" type="text" maxlength="3"/>
+      <!-- 27 -->
+      <p class="riddle" data-cipher=",(Ü áOÍ ÓTó 9Á, BöÖNGTr(Ú5 GQy ŰEL8Ó 6! 9MÖLŐMóD íLöV0JQX ÁÍQ+Ü GCí7ú!úóNVc"></p>
+      <input class="input-field" type="text" maxlength="9"/>
+      <!-- 28 -->
+      <p class="riddle" data-cipher="p9ó!ÖÜ üAéCÜBÖM ÖÍFŰ5Ü 6 ú)íÁőZ)éÉÉ:9OóZ nG T?Cé6 I,ááá!őÚz"></p>
+      <input class="input-field" type="text" maxlength="3"/>
+      <!-- 29 -->
+      <p class="riddle" data-cipher="áÚÚŰ RÚQP:3 Í LON7QPÁNZ8+ Pű ÍÍG=ŐÍ ŰAÓCIP éUT ÁK9J7óÁTX 8: E6U()öLű NÍLAÚ7 ÓON?MÚSÖóW tEGíü 9Óp(ÚÖÚÉP JBÓÓő,tB7(Ű 3 ÓEüA)ŐáEöd CÍ óŐJÁQ Ö7,ÚDIÚ PPKÍ64"></p>
+      <input class="input-field" type="text" maxlength="5" data-groups="2,2"/>
+      <!-- 30 -->
+      <p class="riddle" data-cipher="éÚíí áB 4: +KÁÚúőí((a wOÉW Q,5.LO gúEé0 ÜŐú(RÖöÉé CsíÚóŰ9R7ő ÚRKUÚŰl3 A7 .ÍJ őí!ÁÜ (á!VX (ŐÖí ÉP+ó óIÓBÖM !QC.- ó8KLŰc sÓ ő6í űLGd Í ŰrÓ Ü:Gséé7í PXÖőÍÁŰ2"></p>
+      <input class="input-field" type="text" maxlength="4"/>
+      <!-- 31 -->
+      <p class="riddle" data-cipher="ÍíODRLŐ BAJM90 áőPM! A ÜáŐ,Üús2 7 ?IDYNUZ L=ŐVÓŐú=zŰóSNŰ öM4Ű+ 3G7QT0 ŰDLYCI P=Sá sŰÖ4"></p>
+      <input class="input-field" type="text" maxlength="4"/>
+      <!-- 32 -->
+      <p class="riddle" data-cipher="g ÜÉÚW9O ?,OÜ PíLN!üWÉMŐGÖö Q8óqÜ?:b !9K Ű,ü éFáD5űóKÓ ÉO-ö)I TP őPÜ KÜ)PőÓ7W"></p>
+      <input class="input-field" type="text" maxlength="6"/>
+      <!-- 33 -->
+      <p class="riddle" data-cipher="r6Ö=(á űK?TÓ9y H)L(9OáÖF… tTAé!F ú7MHÖÓZ .ü,í=PWN)Ía QóPuXSF R. k-:x uÉŰ éÍóí=H HR!b"></p>
+      <input class="input-field" type="text" maxlength="11"/>
+      <!-- 34 -->
+      <p class="riddle" data-cipher="í9KJ ŐÖŰ ( JrKÓúué HS? Á: ÉŰíT ,LóKA?ÖűÉL1 HL+Íő+Y A)ó.Á QÖ.3üőéz nJÖőöúsE ( Fúé)Őó)Qí!öÜz á7é+ŰH -J?U .HQU L(ÉZ"></p>
+      <input class="input-field" type="text" maxlength="3"/>
+      <!-- 35 -->
+      <p class="riddle" data-cipher="uBáG ÚÓÖ 5 öQé-RvM = ÖSóD?YGőRPD rő HÉé3ÓÖ Í éJQQ) AÉéPb yHR JrSüWX HÉ ÓŰŰU)ÍÚ )W -+Ű9ÜúNe"></p>
+      <input class="input-field" type="text" maxlength="7" />
+      <!-- 36 -->
+      <p class="riddle" data-cipher="w9úÓ RJüO)8Y… + ŰóR.L.)í ű:ÖŰA8Ű ÁÍŐÉIuő DíÓ68y pÚL=8é Ráé7,éS MÉóT,ÜJ 5: Éí!ÓJ ŐPZ9ó CőéÁíűŰ0W"></p>
+      <input class="input-field" type="text" maxlength="8" />
+	<!-- 37 -->
+      <p class="riddle" data-cipher="MÉ+8P őóŰOPÖ0 ŐíÁű,LqíLóY áőKöW áá.ö 3 ű7Iű7OÓíX"></p>
+    </div>
+  </body>
+</html>
