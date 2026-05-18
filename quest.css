@@ -187,33 +187,69 @@ body {
 div.input {
     display: inline-block;
     position: relative;
+    text-align: left;
+    --input-guide-offset: 10px;
+}
+
+div.input.input-grouped {
+    display: inline-flex;
+    align-items: flex-start;
+    column-gap: 1.5ch;
+}
+
+div.input .input-part {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    --input-guide-offset: 10px;
 }
 
 div.input * {
     font-family: "Roboto Mono", monospace;
     font-size: 22pt;
     line-height: 1;
+    letter-spacing: 0;
+    font-kerning: none;
+    font-variant-ligatures: none;
+}
+
+div.input .input-sizer {
+    display: block;
+    visibility: hidden;
+    white-space: pre;
+    padding-top: var(--input-guide-offset);
+    padding-bottom: 15px;
+    user-select: none;
 }
 
 div.input .input-border {
     position: absolute;
-    top: 10px;
+    top: var(--input-guide-offset);
     left: 0;
-    width: 100%;
     z-index: 0;
     color: var(--text-dim);
+    white-space: pre;
+    padding-bottom: 15px;
+    pointer-events: none;
+    user-select: none;
 }
 
-div.input input.input-field {
+div.input input.input-field:not([type="hidden"]),
+div.input input.input-segment {
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
     border: none;
     outline: none;
     text-transform: uppercase;
     background: transparent;
     color: var(--gold);
     caret-color: var(--accent);
-    padding-bottom: 15px;
-    max-width: 100%;
-    position: relative;
+    padding: 0 0 15px;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
     z-index: 1;
 }
 

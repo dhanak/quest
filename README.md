@@ -39,13 +39,17 @@ No build step, no package manager, no backend.
 
 ## PWA / offline support
 
-A service worker caches all local files (HTML, CSS, JS, manifest, favicon) on first load, plus CDN resources (jQuery, MD5, fonts) on a best-effort basis. After that the game works without a network connection. On supported browsers (Chrome/Chromium/Edge on desktop and Android) an install prompt appears (floating button, bottom-right corner) to add the app to the home screen.
+The PWA is enabled only for `index.html`, the main TúraPest route. A service worker caches the main page and its local assets (HTML, CSS, JS, manifest, favicon, icons) on first load, plus CDN resources (jQuery, MD5, fonts) on a best-effort basis. After that the main game works without a network connection. On supported browsers (Chrome/Chromium/Edge on desktop and Android) an install prompt appears (floating button, bottom-right corner) to add the app to the home screen.
 
 > **Note:** `cache.addAll()` is atomic — if any URL in the list fails, the entire service worker install fails. To avoid this, CDN resources are cached individually with `Promise.allSettled()` so a CDN hiccup never breaks offline support for the local files.
 
 ## Adapting the game for a different route
 
-1. **Write your riddles.** Each riddle is a `<p class="riddle">` element followed by an `<input class="input-field">` with the `maxlength` set to the number of characters in the answer. For answers with spaces, add a `data-spaces` attribute listing the positions of the spaces as a comma-separated list of indices (e.g. `data-spaces="6"` inserts a space after the 6th letter).
+1. **Write your riddles.** Each riddle is a `<p class="riddle">` element followed by an `<input class="input-field">`.
+   - For one-word answers, set `maxlength` to the answer length.
+   - For answers with spaces, keep `maxlength` as the full displayed length **including spaces**, and add a `data-groups` attribute listing the word lengths (for example, `data-groups="5,2,7"` renders `_____ __ _______`).
+
+   The grouped UI behaves like one logical field while still showing separate word slots, and `quest.js` combines the typed groups back into a spaced key for decryption.
 
 2. **Encrypt each riddle text.** Use the `encode(plain, key)` function in `quest.js` from the browser console:
    ```js
@@ -57,7 +61,7 @@ A service worker caches all local files (HTML, CSS, JS, manifest, favicon) on fi
 
 4. **Update `manifest.json`** and the `<title>` in `index.html` with your game's name.
 
-5. **Bump `CACHE_NAME`** in `service-worker.js` (e.g. `files_v10`) to force clients to fetch the updated files.
+5. **Bump `CACHE_NAME`** in `service-worker.js` (e.g. `files_v11`) to force clients to fetch the updated files.
 
 ## Project structure note
 

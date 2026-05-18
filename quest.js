@@ -79,7 +79,7 @@ function add_spaces(word, spaces) {
     if (spaces) {
         spaces = spaces.split(',');
         for (var i = 0; i < spaces.length; i++) {
-            idx = parseInt(spaces[i]);
+            var idx = parseInt(spaces[i], 10);
             if (idx >= word.length)
                 break;
             word = word.slice(0, idx) + ' ' + word.slice(idx);
@@ -88,27 +88,366 @@ function add_spaces(word, spaces) {
     return word;
 }
 
-function fix_spaces(field, spaces) {
-    field.value = add_spaces(field.value.replace(/ /g, ''), spaces);
-    return field.value;
+function parse_groups(groups) {
+    if (!groups)
+        return [];
+
+    groups = groups.split(',');
+    for (var i = 0; i < groups.length; i++) {
+        groups[i] = parseInt(groups[i], 10);
+    }
+    return groups;
+}
+
+function groups_to_spaces(groups) {
+    var spaces = [];
+    var idx = 0;
+    for (var i = 0; i < groups.length - 1; i++) {
+        idx += groups[i];
+        spaces.push(idx);
+        idx += 1;
+    }
+    return spaces.join(',');
+}
+
+function sanitize_segment_text(text) {
+    var clean = "";
+    for (var i = 0; i < text.length; i++) {
+        var char = text[i];
+        if (char == ' ')
+            continue;
+        if (isValidLetter(char.charCodeAt(0)))
+            clean += char;
+    }
+    return clean;
+}
+
+function build_input_guide(len) {
+    return "_".repeat(len);
+}
+
+function focus_segment(field, atEnd) {
+    var pos = atEnd ? field.value.length : 0;
+    field.focus();
+    field.setSelectionRange(pos, pos);
+}
+
+function first_incomplete_segment(segments) {
+    for (var i = 0; i < segments.length; i++) {
+        var segment = segments.eq(i);
+        var max = parseInt(segment.attr("maxlength"), 10);
+        if (segment.val().length < max)
+            return i;
+    }
+    return segments.length - 1;
+}
+
+function total_group_length(groups) {
+    var total = 0;
+    for (var i = 0; i < groups.length; i++) {
+        total += groups[i];
+    }
+    return total;
+}
+
+function grouped_raw_value(segments) {
+    var raw = "";
+    segments.each(function() {
+        raw += $(this).val();
+    });
+    return raw;
+}
+
+function fill_segments_from_raw(segments, groups, raw) {
+    var offset = 0;
+    raw = sanitize_segment_text(raw).slice(0, total_group_length(groups));
+    segments.each(function(index) {
+        this.value = raw.slice(offset, offset + groups[index]);
+        offset += groups[index];
+    });
+}
+
+function grouped_selection(segments, groups, field) {
+    var index = segments.index(field);
+    var offset = 0;
+    for (var i = 0; i < index; i++) {
+        offset += groups[i];
+    }
+    return {
+        start: offset + field.selectionStart,
+        end: offset + field.selectionEnd,
+    };
+}
+
+function focus_grouped_position(segments, groups, position) {
+    var offset = 0;
+    var rawLength = grouped_raw_value(segments).length;
+    position = Math.max(0, Math.min(position, rawLength));
+
+    segments.each(function(index) {
+        var local;
+        if (index === segments.length - 1 ||
+                position < offset + groups[index]) {
+            local = position - offset;
+            local = Math.max(0, Math.min(local, this.value.length));
+            this.focus();
+            this.setSelectionRange(local, local);
+            return false;
+        }
+        offset += groups[index];
+    });
+}
+
+function update_grouped_value(field, segments, spaces, riddle) {
+    var raw = "";
+    segments.each(function() {
+        raw += $(this).val();
+    });
+
+    var key = add_spaces(raw, spaces);
+    field.val(key);
+    decrypt(riddle, key);
+}
+
+function set_grouped_raw(field, segments, groups, spaces, riddle, raw,
+        cursorPos) {
+    fill_segments_from_raw(segments, groups, raw);
+    update_grouped_value(field, segments, spaces, riddle);
+    if (cursorPos !== undefined)
+        focus_grouped_position(segments, groups, cursorPos);
+}
+
+function apply_grouped_insert(raw, selection, text, totalLen) {
+    var available = totalLen - (raw.length -
+        (selection.end - selection.start));
+
+    text = sanitize_segment_text(text).slice(0, Math.max(0, available));
+    return {
+        raw: raw.slice(0, selection.start) +
+            text +
+            raw.slice(selection.end),
+        cursorPos: selection.start + text.length,
+    };
+}
+
+function init_single_input(field) {
+    var wrappedField = $(field).wrap("<div class='input'></div>");
+    var wrapper = wrappedField.parent();
+    var riddle = wrapper.next('.riddle');
+    var guide = build_input_guide(
+        parseInt(wrappedField.attr("maxlength"), 10));
+
+    wrappedField
+        .keypress(evt => {
+            if (!isValidLetter(evt.which)) {
+                evt.preventDefault();
+            }
+        })
+        .before("<div class='input-sizer' aria-hidden='true'>" +
+            guide + "</div>")
+        .before("<div class='input-border' aria-hidden='true'>" +
+            guide + "</div>")
+        .on('input', function() {
+            decrypt(riddle, this.value);
+        });
+
+    decrypt(riddle, wrappedField.val());
+}
+
+function init_grouped_input(field) {
+    var wrappedField = $(field).wrap("<div class='input input-grouped'></div>");
+    var wrapper = wrappedField.parent();
+    var riddle = wrapper.next('.riddle');
+    var groups = parse_groups(wrappedField.attr("data-groups"));
+    var spaces = groups_to_spaces(groups);
+    var totalLen = total_group_length(groups);
+
+    wrappedField.attr('type', 'hidden').addClass('grouped-value');
+
+    for (var i = 0; i < groups.length; i++) {
+        var guide = build_input_guide(groups[i]);
+        wrappedField.before(
+            "<div class='input-part'>" +
+                "<div class='input-sizer' aria-hidden='true'>" +
+                    guide + "</div>" +
+                "<div class='input-border' aria-hidden='true'>" +
+                    guide + "</div>" +
+                "<input class='input-segment' type='text' maxlength='" +
+                    groups[i] + "' autocomplete='off' " +
+                    "autocapitalize='characters' autocorrect='off' " +
+                    "spellcheck='false'>" +
+            "</div>"
+        );
+    }
+
+    var segments = wrapper.find('input.input-segment');
+
+    segments
+        .on('mousedown', function(evt) {
+            var index = segments.index(this);
+            var raw = grouped_raw_value(segments);
+            var first = first_incomplete_segment(segments);
+            if (raw.length < totalLen && index > first) {
+                evt.preventDefault();
+                focus_grouped_position(segments, groups, raw.length);
+            }
+        })
+        .on('keydown', function(evt) {
+            var raw = grouped_raw_value(segments);
+            var selection = grouped_selection(segments, groups, this);
+            var collapsed = selection.start === selection.end;
+
+            if (evt.key === 'Backspace') {
+                evt.preventDefault();
+                if (collapsed) {
+                    if (selection.start === 0)
+                        return;
+                    selection.start -= 1;
+                }
+                set_grouped_raw(
+                    wrappedField,
+                    segments,
+                    groups,
+                    spaces,
+                    riddle,
+                    raw.slice(0, selection.start) +
+                        raw.slice(selection.end),
+                    selection.start
+                );
+                return;
+            }
+
+            if (evt.key === 'Delete') {
+                evt.preventDefault();
+                if (collapsed) {
+                    if (selection.end >= raw.length)
+                        return;
+                    selection.end += 1;
+                }
+                set_grouped_raw(
+                    wrappedField,
+                    segments,
+                    groups,
+                    spaces,
+                    riddle,
+                    raw.slice(0, selection.start) +
+                        raw.slice(selection.end),
+                    selection.start
+                );
+                return;
+            }
+
+            if (evt.key === 'ArrowLeft' && collapsed &&
+                    this.selectionStart === 0 && selection.start > 0) {
+                evt.preventDefault();
+                focus_grouped_position(
+                    segments, groups, selection.start - 1);
+                return;
+            }
+
+            if (evt.key === 'ArrowRight' && collapsed &&
+                    this.selectionStart === this.value.length &&
+                    selection.end < raw.length) {
+                evt.preventDefault();
+                focus_grouped_position(segments, groups, selection.end + 1);
+                return;
+            }
+
+            if (evt.key === 'Home') {
+                evt.preventDefault();
+                focus_grouped_position(segments, groups, 0);
+                return;
+            }
+
+            if (evt.key === 'End') {
+                evt.preventDefault();
+                focus_grouped_position(segments, groups, raw.length);
+                return;
+            }
+
+            if (!evt.ctrlKey && !evt.metaKey && !evt.altKey &&
+                    evt.key.length === 1) {
+                if (!isValidLetter(evt.key.charCodeAt(0)) ||
+                        evt.key == ' ') {
+                    evt.preventDefault();
+                    return;
+                }
+
+                evt.preventDefault();
+                var inserted = apply_grouped_insert(
+                    raw, selection, evt.key, totalLen);
+                set_grouped_raw(
+                    wrappedField,
+                    segments,
+                    groups,
+                    spaces,
+                    riddle,
+                    inserted.raw,
+                    inserted.cursorPos
+                );
+            }
+        })
+        .on('input', function() {
+            var selection = grouped_selection(segments, groups, this);
+            set_grouped_raw(
+                wrappedField,
+                segments,
+                groups,
+                spaces,
+                riddle,
+                grouped_raw_value(segments),
+                selection.end
+            );
+        })
+        .on('paste', function(evt) {
+            var clipboard;
+            var raw = grouped_raw_value(segments);
+            var selection = grouped_selection(segments, groups, this);
+
+            evt.preventDefault();
+
+            clipboard = evt.originalEvent && evt.originalEvent.clipboardData ?
+                evt.originalEvent.clipboardData.getData('text') : "";
+            clipboard = sanitize_segment_text(clipboard);
+            if (!clipboard.length)
+                return;
+
+            var inserted = apply_grouped_insert(
+                raw, selection, clipboard, totalLen);
+            set_grouped_raw(
+                wrappedField,
+                segments,
+                groups,
+                spaces,
+                riddle,
+                inserted.raw,
+                inserted.cursorPos
+            );
+        });
+
+    if (wrappedField.val().length) {
+        set_grouped_raw(
+            wrappedField,
+            segments,
+            groups,
+            spaces,
+            riddle,
+            wrappedField.val().replace(/ /g, '')
+        );
+    } else {
+        update_grouped_value(wrappedField, segments, spaces, riddle);
+    }
 }
 
 window.addEventListener('load', () => {
-    $("input.input-field")
-        .wrap("<div class='input'></div>")
-        .keypress(evt => { if (!isValidLetter(evt.which)) { evt.preventDefault(); }})
-        .each(function() {
-            var riddle = $(this).parents('div.input').next('.riddle');
-            const len = $(this).attr("maxlength");
-            const spaces = $(this).attr("data-spaces");
-            const len0 = len - (spaces ? spaces.split(',').length : 0);
-            $(this)
-                .before("<div class='input-border'>" + add_spaces("_".repeat(len0), spaces) + "</div>")
-                .width(len + 'ch')
-                .keyup(evt => decrypt(riddle, fix_spaces(this, spaces)));
-        });
     $(".riddle[data-cipher]").append(function () {
         return "<span class='text'>" + decode($(this).attr('data-cipher'), '').replace(/\//g, '<br>') + "</span>";
+    });
+    $("input.input-field[data-groups]").each(function() {
+        init_grouped_input(this);
+    });
+    $("input.input-field").not("[data-groups]").each(function() {
+        init_single_input(this);
     });
     // wrap each riddle+input pair in a card for visual grouping
     $('#quest > .riddle').each(function() {
@@ -129,10 +468,44 @@ window.addEventListener('load', () => {
     });
 });
 
+function is_index_page() {
+    return window.location.pathname.endsWith('/') ||
+        window.location.pathname.endsWith('/index.html');
+}
+
+function service_worker_script_url(registration) {
+    var worker = registration.active || registration.waiting ||
+        registration.installing;
+    return worker ? worker.scriptURL : "";
+}
+
+async function sync_service_worker_scope() {
+    var desiredScope = new URL('index.html', window.location.href).href;
+    var desiredScript = new URL(
+        'service-worker.js', window.location.href).href;
+    var registrations = await navigator.serviceWorker.getRegistrations();
+
+    await Promise.all(registrations.map(async registration => {
+        if (service_worker_script_url(registration) === desiredScript &&
+                registration.scope !== desiredScope) {
+            await registration.unregister();
+        }
+    }));
+
+    if (!is_index_page())
+        return;
+
+    var reg = await navigator.serviceWorker.register(
+        'service-worker.js',
+        { scope: 'index.html' }
+    );
+    console.log('Service worker registered.', reg);
+}
+
 // add install button
 var firstLoad = true;
 window.addEventListener('beforeinstallprompt', (evt) => {
-    if (!firstLoad)
+    if (!firstLoad || !is_index_page())
         return;
 
     evt.preventDefault();
@@ -148,7 +521,6 @@ window.addEventListener('beforeinstallprompt', (evt) => {
 // add service worker for PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
-        var reg = await navigator.serviceWorker.register('service-worker.js');
-        console.log('Service worker registered.', reg);
+        await sync_service_worker_scope();
     });
 }

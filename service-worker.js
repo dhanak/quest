@@ -1,4 +1,4 @@
-const CACHE_NAME = "files_v10";
+const CACHE_NAME = "files_v12";
 
 // Local files — must all succeed or SW install fails
 const FILES_TO_CACHE = [
@@ -6,6 +6,15 @@ const FILES_TO_CACHE = [
     'quest.css',
     'quest.js',
     'manifest.json',
+    'favicon.ico',
+    'icons/quest.svg',
+    'icons/quest_64.png',
+    'icons/quest_128.png',
+    'icons/quest_144.png',
+    'icons/quest_152.png',
+    'icons/quest_192.png',
+    'icons/quest_256.png',
+    'icons/quest_512.png',
 ];
 
 // CDN resources — cached opportunistically; a fetch failure is non-fatal
