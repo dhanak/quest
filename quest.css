@@ -351,6 +351,44 @@ div.input input.input-segment {
     text-align: left;
 }
 
+.qr-link {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    transform: translateX(-50%);
+    border: 1px solid var(--accent-dim);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: 0 4px 16px var(--shadow);
+}
+
+.qr-link:focus,
+.qr-link:hover {
+    border-color: rgba(200, 155, 60, 0.5);
+    box-shadow: 0 4px 16px var(--shadow), 0 0 0 3px var(--accent-glow);
+}
+
+.qr-link span {
+    width: 22px;
+    height: 22px;
+    background:
+        linear-gradient(var(--gold), var(--gold)) 0 0 / 8px 8px no-repeat,
+        linear-gradient(var(--gold), var(--gold)) 14px 0 / 8px 8px no-repeat,
+        linear-gradient(var(--gold), var(--gold)) 0 14px / 8px 8px no-repeat,
+        linear-gradient(var(--gold), var(--gold)) 14px 14px / 3px 3px
+            no-repeat,
+        linear-gradient(var(--gold), var(--gold)) 19px 14px / 3px 8px
+            no-repeat,
+        linear-gradient(var(--gold), var(--gold)) 14px 19px / 8px 3px
+            no-repeat,
+        linear-gradient(var(--gold), var(--gold)) 10px 10px / 3px 3px
+            no-repeat;
+}
+
 @media (max-width: 600px) {
     #site-header {
         height: 130px;
