@@ -343,6 +343,26 @@ div.input input.input-segment {
     transform: translateY(1px);
 }
 
+.home-link {
+    display: inline-grid;
+    min-width: 10rem;
+    min-height: 3.25rem;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #0e1b27;
+    font: 700 1.1rem "Inconsolata", monospace;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(200, 155, 60, 0.35);
+}
+
+.home-link:focus,
+.home-link:hover {
+    background: #d6a846;
+    outline: none;
+    box-shadow: 0 4px 16px var(--shadow), 0 0 0 3px var(--accent-glow);
+}
+
 .form-error {
     min-height: 1.4rem;
     margin: 0;
