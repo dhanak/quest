@@ -155,35 +155,6 @@ body {
     margin-top: 0.4em;
 }
 
-#install {
-    position: fixed;
-    bottom: 2em;
-    right: 2em;
-    height: 64px;
-    width: 64px;
-    background-image: url(icons/quest_64.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
-}
-
-.fab {
-    z-index: 100;
-    border-radius: 50%;
-    border: 0;
-    outline: 0;
-    background-color: var(--accent);
-    box-shadow: 0 4px 16px rgba(200, 155, 60, 0.45);
-    transition: all 0.12s ease-in-out;
-    cursor: pointer;
-}
-
-.fab:active {
-    background-color: #a87c24;
-    box-shadow: 0 2px 8px rgba(200, 155, 60, 0.35);
-    transform: scale(0.93);
-}
-
 div.input {
     display: inline-block;
     position: relative;
@@ -286,6 +257,98 @@ div.input input.input-segment {
 
 .riddle img[data-blur="noblur"] {
     filter: none;
+}
+
+.welcome-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1rem;
+    color: var(--text);
+    font-family: "Inconsolata", monospace;
+}
+
+.welcome {
+    width: 100%;
+    max-width: 620px;
+    text-align: center;
+}
+
+.welcome-logo {
+    width: 118px;
+    height: 118px;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 34px rgba(200, 155, 60, 0.22));
+}
+
+.welcome h1 {
+    margin: 0 0 0.7rem;
+    color: var(--accent);
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-shadow: 0 0 40px rgba(200, 155, 60, 0.28);
+}
+
+.welcome p {
+    margin: 0 0 2rem;
+    color: var(--text);
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.quest-form {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.quest-form label {
+    color: var(--accent);
+    font-size: 1rem;
+    text-align: left;
+}
+
+.quest-form input {
+    width: 100%;
+    min-height: 3.25rem;
+    border: 1px solid var(--accent-dim);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--gold);
+    font: 1.25rem "Roboto Mono", monospace;
+    outline: none;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 24px var(--shadow);
+}
+
+.quest-form input:focus {
+    border-color: rgba(200, 155, 60, 0.5);
+    box-shadow: 0 4px 24px var(--shadow), 0 0 0 3px var(--accent-glow);
+}
+
+.quest-form button {
+    min-height: 3.25rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #0e1b27;
+    font: 700 1.1rem "Inconsolata", monospace;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(200, 155, 60, 0.35);
+}
+
+.quest-form button:active {
+    background: #a87c24;
+    transform: translateY(1px);
+}
+
+.form-error {
+    min-height: 1.4rem;
+    margin: 0;
+    color: #f0c36a;
+    font-size: 0.95rem;
+    text-align: left;
 }
 
 @media (max-width: 600px) {
