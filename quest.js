@@ -122,6 +122,20 @@ function sanitize_segment_text(text) {
     return clean;
 }
 
+function isValidSingleInputLetter(key) {
+    return key != ' '.charCodeAt(0) && isValidLetter(key);
+}
+
+function sanitize_single_input_text(text) {
+    var clean = "";
+    for (var i = 0; i < text.length; i++) {
+        var char = text[i];
+        if (isValidSingleInputLetter(char.charCodeAt(0)))
+            clean += char;
+    }
+    return clean;
+}
+
 function build_input_guide(len) {
     return "_".repeat(len);
 }
@@ -239,7 +253,7 @@ function init_single_input(field) {
 
     wrappedField
         .keypress(evt => {
-            if (!isValidLetter(evt.which)) {
+            if (!isValidSingleInputLetter(evt.which)) {
                 evt.preventDefault();
             }
         })
@@ -248,6 +262,9 @@ function init_single_input(field) {
         .before("<div class='input-border' aria-hidden='true'>" +
             guide + "</div>")
         .on('input', function() {
+            var clean = sanitize_single_input_text(this.value);
+            if (clean !== this.value)
+                this.value = clean;
             decrypt(riddle, this.value);
         });
 
