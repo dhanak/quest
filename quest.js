@@ -514,7 +514,7 @@ function init_grouped_input(field) {
     }
 }
 
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     $(".riddle[data-cipher]").append(function () {
         return "<span class='text'>" + decode($(this).attr('data-cipher'), '').replace(/\//g, '<br>') + "</span>";
     });
@@ -541,5 +541,8 @@ window.addEventListener('load', () => {
         } else if ($header.hasClass('scrolled') && scrollTop < 30) {
             $header.removeClass('scrolled');
         }
+    });
+    window.requestAnimationFrame(function() {
+        $('#quest').addClass('ready');
     });
 });
