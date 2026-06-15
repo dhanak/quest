@@ -80,6 +80,10 @@ function storage_key(index) {
     return 'quest-input:' + window.location.pathname + ':' + index;
 }
 
+function donation_storage_key() {
+    return 'quest-donation:' + window.location.pathname;
+}
+
 function read_stored_input(key) {
     try {
         var stored = JSON.parse(localStorage.getItem(key));
@@ -129,6 +133,62 @@ function persist_input(field, value) {
     var key = $(field).attr('data-storage-key');
     if (key)
         write_stored_input(key, value);
+}
+
+function append_donation_footnote() {
+    var revolutUrl = 'https://revolut.me/dhanak?currency=HUF&' +
+        'note=dev.vidga.hu%2Fquest';
+    var paypalUrl = 'https://paypal.me/dhanakhu';
+    var footnote = $('<p>', {
+        id: 'donation-footnote',
+        class: 'donation-footnote',
+    });
+
+    footnote.append(
+        'Ha tetszett a túra és támogatnád a fejlesztést, ' +
+        'megteheted itt: '
+    );
+    footnote.append($('<a>', {
+        href: revolutUrl,
+        target: '_blank',
+        rel: 'noopener',
+        text: 'Revolut',
+    }));
+    footnote.append(' vagy ');
+    footnote.append($('<a>', {
+        href: paypalUrl,
+        target: '_blank',
+        rel: 'noopener',
+        text: 'PayPal',
+    }));
+    footnote.append('.');
+
+    $('#quest').append(footnote);
+}
+
+function show_donation_footnote() {
+    $('#donation-footnote').addClass('visible');
+    write_stored_input(donation_storage_key(), 'shown');
+}
+
+function restore_donation_footnote() {
+    if (read_stored_input(donation_storage_key()) === 'shown')
+        $('#donation-footnote').addClass('visible');
+}
+
+function final_input_complete(field) {
+    var value = $(field).val();
+    var groups = parse_groups($(field).attr('data-groups'));
+    var expected = groups.length ?
+        total_group_length(groups) :
+        parseInt($(field).attr('maxlength'), 10);
+
+    return value.replace(/ /g, '').length >= expected;
+}
+
+function maybe_show_donation_footnote(field) {
+    if ($(field).is('[data-final-input]') && final_input_complete(field))
+        show_donation_footnote();
 }
 
 function add_spaces(word, spaces) {
@@ -278,6 +338,7 @@ function update_grouped_value(field, segments, spaces, riddle) {
     field.val(key);
     persist_input(field, key);
     decrypt(riddle, key);
+    maybe_show_donation_footnote(field);
 }
 
 function set_grouped_raw(field, segments, groups, spaces, riddle, raw,
@@ -324,6 +385,7 @@ function init_single_input(field) {
                 this.value = clean;
             persist_input(this, this.value);
             decrypt(riddle, this.value);
+            maybe_show_donation_footnote(this);
         });
 
     decrypt(riddle, wrappedField.val());
@@ -525,6 +587,7 @@ window.addEventListener('DOMContentLoaded', () => {
     $("input.input-field").not("[data-groups]").each(function() {
         init_single_input(this);
     });
+    $("input.input-field").last().attr('data-final-input', 'true');
     // wrap each riddle+input pair in a card for visual grouping
     $('#quest > .riddle').each(function() {
         var $next = $(this).next('div.input');
@@ -532,6 +595,9 @@ window.addEventListener('DOMContentLoaded', () => {
             ? $(this).add($next).wrapAll('<div class="card"></div>')
             : $(this).wrap('<div class="card"></div>');
     });
+    append_donation_footnote();
+    restore_donation_footnote();
+    maybe_show_donation_footnote($("input.input-field").last());
     // collapse header on scroll — hysteresis prevents oscillation
     $(window).on('scroll', function () {
         var scrollTop = $(this).scrollTop();

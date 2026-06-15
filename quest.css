@@ -161,6 +161,43 @@ body {
     margin-top: 0.4em;
 }
 
+.donation-footnote {
+    display: none;
+    margin: 1.5rem 0 0;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0;
+}
+
+.donation-footnote.visible {
+    display: block;
+    opacity: 1;
+    animation: donation-fade 0.25s ease-in;
+}
+
+.donation-footnote a {
+    color: var(--gold);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.donation-footnote a:focus,
+.donation-footnote a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+@keyframes donation-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 div.input {
     display: inline-block;
     position: relative;
