@@ -6,6 +6,7 @@ const alnum =
 
 const keyLetters = alnum.concat([' ', '-']).map(x => x.charCodeAt(0));
 const textLetters = alnum.concat('.,?!:=+-()'.split('')); // add: ' "
+const inputStorageTtl = 24 * 60 * 60 * 1000;
 
 function sgn(v) {
     return v < 0 ? -1 : v == 0 ? 0 : 1;
@@ -73,6 +74,61 @@ function decrypt(riddle, key) {
     }
 
     riddle.children('img').attr('data-blur', () => decode(riddle.attr('data-blur'), 'blur:' + key));
+}
+
+function storage_key(index) {
+    return 'quest-input:' + window.location.pathname + ':' + index;
+}
+
+function read_stored_input(key) {
+    try {
+        var stored = JSON.parse(localStorage.getItem(key));
+        if (!stored)
+            return null;
+        if (typeof stored.value !== 'string' ||
+                typeof stored.expiresAt !== 'number') {
+            localStorage.removeItem(key);
+            return null;
+        }
+        if (stored.expiresAt <= Date.now()) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        return stored.value;
+    } catch (err) {
+        return null;
+    }
+}
+
+function write_stored_input(key, value) {
+    try {
+        if (!value) {
+            localStorage.removeItem(key);
+            return;
+        }
+        localStorage.setItem(key, JSON.stringify({
+            value: value,
+            expiresAt: Date.now() + inputStorageTtl,
+        }));
+    } catch (err) {
+        // Storage can be unavailable in private browsing or strict modes.
+    }
+}
+
+function restore_inputs() {
+    $("input.input-field").each(function(index) {
+        var key = storage_key(index);
+        var value = read_stored_input(key);
+        $(this).attr('data-storage-key', key);
+        if (value !== null)
+            $(this).val(value);
+    });
+}
+
+function persist_input(field, value) {
+    var key = $(field).attr('data-storage-key');
+    if (key)
+        write_stored_input(key, value);
 }
 
 function add_spaces(word, spaces) {
@@ -220,6 +276,7 @@ function update_grouped_value(field, segments, spaces, riddle) {
 
     var key = add_spaces(raw, spaces);
     field.val(key);
+    persist_input(field, key);
     decrypt(riddle, key);
 }
 
@@ -265,6 +322,7 @@ function init_single_input(field) {
             var clean = sanitize_single_input_text(this.value);
             if (clean !== this.value)
                 this.value = clean;
+            persist_input(this, this.value);
             decrypt(riddle, this.value);
         });
 
@@ -460,6 +518,7 @@ window.addEventListener('load', () => {
     $(".riddle[data-cipher]").append(function () {
         return "<span class='text'>" + decode($(this).attr('data-cipher'), '').replace(/\//g, '<br>') + "</span>";
     });
+    restore_inputs();
     $("input.input-field[data-groups]").each(function() {
         init_grouped_input(this);
     });
