@@ -15,17 +15,25 @@
 }
 
 html {
+    min-height: 100%;
     overflow-anchor: none;
+    background-color: var(--bg);
 }
 
 body {
     margin: 0;
+    min-height: 100%;
     background-color: var(--bg);
     background-image:
         linear-gradient(rgba(200, 155, 60, 0.045) 1px, transparent 1px),
         linear-gradient(90deg, rgba(200, 155, 60, 0.045) 1px, transparent 1px);
     background-size: 44px 44px;
-    overscroll-behavior-y: contain;
+}
+
+@supports (min-height: 100dvh) {
+    body {
+        min-height: 100dvh;
+    }
 }
 
 #quest {
