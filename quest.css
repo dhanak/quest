@@ -296,20 +296,6 @@ div.input input.input-segment {
     width: 2.6em;
 }
 
-.riddle img {
-    display: block;
-    margin: 0 auto;
-    max-width: 70%;
-    max-height: 250px;
-    padding-bottom: 20px;
-    filter: invert(50%) opacity(25%);
-    transition: 2s filter linear;
-}
-
-.riddle img[data-blur="noblur"] {
-    filter: none;
-}
-
 .welcome-page {
     min-height: 100vh;
     display: grid;

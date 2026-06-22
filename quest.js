@@ -72,8 +72,6 @@ function decrypt(riddle, key) {
         const timer = setInterval(animateDecryption, 20, riddleText, decode(riddle.attr('data-cipher'), key));
         riddleText.data('timer', timer);
     }
-
-    riddle.children('img').attr('data-blur', () => decode(riddle.attr('data-blur'), 'blur:' + key));
 }
 
 function storage_key(index) {
